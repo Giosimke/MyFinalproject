@@ -23,7 +23,7 @@ podmeni2.add_command(label="Export to csv", command=lambda:P.radnici_csv())
 
 podmeni3=Menu(meni,tearoff=0)
 meni.add_cascade(label="View",menu=podmeni3)
-podmeni3.add_command(label="Piechart")
+podmeni3.add_command(label="Piechart",command=lambda:P.pita_radnici())
 podmeni3.add_command(label="Barplot",command=lambda:P.grafik_radnici())
 
 podmeni4=Menu(meni,tearoff=0)
@@ -149,6 +149,28 @@ class Poslasticarnica:
         plt.subplot(2,1,2)
         plt.barh(x,y,height=0.5)
         plt.show()
+
+
+    def pita_radnici(self):
+        self.plot_def=pd.read_sql_query('SELECT*FROM RADNICI',self.con)
+        print(self.plot_def)
+        l_df=self.plot_def.loc[:,'ime_prezime']
+        print(l_df)
+        l=l_df.to_list()
+        print(l)
+       
+        p_df=self.plot_def.loc[:,'plata']
+        print(p_df)
+        P=p_df.to_list()
+        print(P)
+        
+        x=l
+        y=P
+
+        plt.figure(figsize=(10,6))
+        plt.pie(y,labels=x,autopct='%1.1f%%')
+        plt.show()
+        
 
 
     def ponisti_radnika(self,IME_PREZIME):
