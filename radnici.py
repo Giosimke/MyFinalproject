@@ -19,6 +19,7 @@ podmeni2=Menu(meni,tearoff=0)
 meni.add_cascade(label="Export",menu=podmeni2)
 podmeni2.add_command(label="Export to excel", command=lambda:P.radnici_ex())
 podmeni2.add_command(label="Export to csv", command=lambda:P.radnici_csv())
+podmeni2.add_command(label="Export to json", command=lambda:P.radnici_json())
 
 
 podmeni3=Menu(meni,tearoff=0)
@@ -125,6 +126,10 @@ class Poslasticarnica:
     def radnici_csv(self):
         self.radnici=pd.read_sql_query('SELECT*FROM RADNICI',self.con)
         self.radnici.to_csv('RADNICI.csv',index=False)
+
+    def radnici_json(self):
+        self.radnici=pd.read_sql_query('SELECT*FROM RADNICI',self.con)
+        self.radnici.to_json('RADNICI.json',orient='split',index=False)
     
     
     def grafik_radnici(self):
